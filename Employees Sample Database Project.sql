@@ -2,7 +2,7 @@
 The Employees Sample Database consists of 4 million records in total, spread over 6 separate tables. 
 Please refer to the employee-en.a4.pdf document for information on this dataset. 
 
-Skills used: Joins, CTE's, Subqueries, Aggregate Functions, Stored Procedures
+Skills used: Joins, CTEs, Subqueries, Aggregate Functions, Stored Procedures
 */
 
 
@@ -42,7 +42,8 @@ INNER JOIN my_cte ON dept_emp.emp_no = my_cte.department_no
 WHERE dept_emp.dept_no = my_cte.department_no
 AND dept_emp.from_date >= my_cte.f_date
 AND dept_emp.to_date <= my_cte.t_date;
---Another way to count the number of Margaret Markovitch manage during his/her term, using subqueries
+
+--Another way to count the number of Margaret Markovitch managed during his/her term, using subqueries
 SELECT 
   count(dept_emp.emp_no) AS number_of_employees
 FROM dept_emp, 
@@ -74,7 +75,7 @@ WHERE emp_no = '10002' AND title = 'Staff';
 INSERT INTO titles
 VALUES ('10002', 'Senior Staff', '2022-12-15', '9999-01-01');
 
---Add a new department 'Big Data & ML' and promote employee 29005 to manager of this department 
+--Add a new department 'Big Data & ML' and promote employee 29005 to the manager of this department 
 INSERT INTO departments
 VALUES ('d010', 'Big Data & ML');
 
@@ -83,13 +84,13 @@ VALUES ('29005', 'd010', now(), '9999-01-01');
 
 --Create a stored procedure which takes employee name as the input and displays their information 
 
-DROP PROCEDURE IF EXISTS test1;
+DROP PROCEDURE IF EXISTS empInfo;
 
 DELIMITER //
 
-CREATE PROCEDURE test1(fullname varchar(50))
+CREATE PROCEDURE empInfo(fullname varchar(50))
 BEGIN 
-	SELECT DISTINCT e.emp_no, CONCAT(e.first_name, ' ', e.last_name) AS full_name, e.gender, t.title, departments.dept_name, sum(s.salary) AS total_salary
+    SELECT DISTINCT e.emp_no, CONCAT(e.first_name, ' ', e.last_name) AS full_name, e.gender, t.title, departments.dept_name, sum(s.salary) AS total_salary
     FROM employees AS e
     INNER JOIN titles AS t ON e.emp_no = t.emp_no
     INNER JOIN dept_emp ON e.emp_no = dept_emp.emp_no
@@ -102,7 +103,7 @@ END //
 DELIMITER ;
 
 --execute the stored procedure 
-CALL test1('Margareta Markovitch');
+CALL empInfo('Margareta Markovitch');
 
 --Create a stored procedure to move employees between departments, with new roles and return their employee id, full name, gender, title, and new department name 
 DROP PROCEDURE IF EXISTS move_dept; 
@@ -111,7 +112,7 @@ DELIMITER //
 
 CREATE PROCEDURE move_dept (empno int, old_dept_no varchar(50), new_dept_no varchar(50))
 BEGIN
-	SELECT e.emp_no, CONCAT(e.first_name, ' ', e.last_name) AS full_name, e.gender, t.title, departments.dept_name
+    SELECT e.emp_no, CONCAT(e.first_name, ' ', e.last_name) AS full_name, e.gender, t.title, departments.dept_name
     FROM employees AS e
     INNER JOIN titles AS t ON e.emp_no = t.emp_no
     INNER JOIN dept_emp ON e.emp_no = dept_emp.emp_no
