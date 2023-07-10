@@ -1,4 +1,4 @@
-# Employees Database Analysis in SQL
+# Employees Database Analysis in SQL (MySQL)
 
 ## Description
 This project focuses on analyzing the Employees sample database using SQL. The Employees database is a large dataset consisting of approximately 160MB of data spread across six separate tables, totalling 4 million records. The project aims to demonstrate SQL skills through the implementation of various queries and operations on the database, including aggregate functions, joins, Common Table Expressions (CTEs), subqueries, and stored procedures. 
